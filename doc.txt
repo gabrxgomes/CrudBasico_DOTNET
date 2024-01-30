@@ -1,0 +1,15 @@
+// Método para calcular o IPVA
+    public static double CalcularIpva(double valorVenal, double aliquota)
+    {
+        // Verificando se o valor venal e a alíquota são válidos
+        if (valorVenal <= 0)
+        {
+            throw new ArgumentException("O valor venal deve ser maior que zero.");
+        }
+        if (aliquota <= 0 || aliquota > 100)
+        {
+            throw new ArgumentException("A alíquota deve estar entre 0 e 100.");
+        }
+
+
+//uso do throw
