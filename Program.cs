@@ -26,7 +26,7 @@ app.MapGet("/AddHeader", (HttpResponse response) => {
 
 
 
-app.MapPost("/saveproduct", (Product product) => { //passando pelo body
+app.MapPost("/products", (Product product) => { //passando pelo body
 	//return product.Code + " - " + product.Name;
 	ProductRepository.Add(product);
 });
@@ -35,7 +35,7 @@ app.MapPost("/saveproduct", (Product product) => { //passando pelo body
 	*/
 
 
-app.MapGet("/getproduct/{code}", ([FromRoute] string code) => {
+app.MapGet("/products/{code}", ([FromRoute] string code) => { //endpoint
 	//return code;
 	var product = ProductRepository.GetBy(code);
 	return product;
@@ -43,18 +43,18 @@ app.MapGet("/getproduct/{code}", ([FromRoute] string code) => {
 
 
 
-app.MapGet("/getproduct", (HttpRequest request) => {
+app.MapGet("/getproduct", (HttpRequest request) => { //endpoint
 	return request.Headers["product-code"].ToString();
 });
 
 
-app.MapPut("/editproduct", (Product product) => { //aqui vamos alterar apenas o nome do produto pois o seu codigo se assemelha ao id um identificador unico
+app.MapPut("/products", (Product product) => { //aqui vamos alterar apenas o nome do produto pois o seu codigo se assemelha ao id um identificador unico //endpoint
 	var productSaved = ProductRepository.GetBy(product.Code);
 	productSaved.Name = product.Name;//atualiza o nome
 	//ele pega o nome que vem pelo body como parametro e o atualiza
 });
 
-app.MapDelete("/deleteproduct/{code}", ([FromRoute] string code) => {
+app.MapDelete("/products/{code}", ([FromRoute] string code) => { //endpoint
 	var productSaved = ProductRepository.GetBy(code);
 	ProductRepository.Remove(productSaved);
 });
@@ -69,10 +69,10 @@ app.Run();
 
 //criar uma classe para servir de banco de dados
 
-public static class ProductRepository {
+public static class ProductRepository { //declaração do repository como uma lista 
 	public static List<Product> Products { get; set; }
 
-	public static void Add(Product product) {
+	public static void Add(Product product) { //declaração dos metodos para salvar dentro dessa lista
 		if(Products == null)
 			Products = new List<Product>();
 		Products.Add(product);
@@ -84,12 +84,12 @@ public static class ProductRepository {
 	}
 
 
-	public static void Remove(Product product) {
+	public static void Remove(Product product) { //declaração dos metodos dentro da lista
 		Products.Remove(product);
 	}
 }
 
-public class Product {
+public class Product {    //declaração do obj com os metodos em seus devidos atributos como nome e codigo
 	public string Code { get; set; }
 	public string Name { get; set; }
 
